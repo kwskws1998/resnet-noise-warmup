@@ -1,0 +1,71 @@
+{
+  "version": 2,
+  "status": "Prospective scale-up screen, not executed on CUDA yet",
+  "seeds": [
+    1,
+    2
+  ],
+  "split_seed": 20261009,
+  "dataset": "CIFAR-10 official 50000 training examples split into 45000 train and 5000 validation; official test held separately",
+  "training_examples_per_class": 4500,
+  "validation_examples_per_class": 500,
+  "test_examples_per_class": 1000,
+  "architecture": "torchvision ResNet-18 from scratch, original channel widths, 3x3 stride-1 CIFAR stem, no maxpool, 10-way shared head",
+  "pretrained": false,
+  "task_rotations_degrees": [
+    0,
+    90,
+    180
+  ],
+  "task_type": "Domain-incremental: same classes and examples under rotations, no task identity at inference, no replay",
+  "batch_size": 128,
+  "epochs_per_task": 50,
+  "optimizer": "Adam",
+  "learning_rate": 0.001,
+  "warmup_learning_rate": 0.001,
+  "weight_decay": 0.0,
+  "warmup_steps": 200,
+  "noise": "Fresh IID N(0,1) RGB inputs and independent uniform labels at every step",
+  "variance_floor_fraction": 0.8,
+  "variance_penalty_weight": 1.0,
+  "batchnorm_control": "All warm-up conditions use batch statistics. Reset running buffers and recalibrate on the same 640 unlabeled task-0 training images after preparation. Reset optimizer at every real-task boundary. BN affine parameters are retained.",
+  "batchnorm_calibration_batches": 10,
+  "augmentation": "None; preserve the PoC intervention while increasing data and training duration.",
+  "conditions": [
+    {
+      "name": "none",
+      "kind": "none",
+      "steps": 0
+    },
+    {
+      "name": "full",
+      "kind": "full",
+      "steps": 200
+    },
+    {
+      "name": "full_var",
+      "kind": "full_var",
+      "steps": 200
+    }
+  ],
+  "evaluation": "Validation during training. Official test accessed only by finalize after all six runs; also report 9000 examples excluded from the earlier 1000-example PoC test.",
+  "extra_diagnostic": "No oracle BN recalibration in the main scale-up.",
+  "limitations": "Two seeds; artificial same-class domain shifts; not class-incremental. Data size, duration, real-data batch size and device differ from PoC. No novelty claim. No fully untouched official-test claim: 1000 test images were used in PoC.",
+  "warmup_batch_size": 64,
+  "eval_batch_size": 256,
+  "batchnorm_calibration_batch_size": 64,
+  "scheduler": "Constant learning rate, as in PoC; learning-rate and regularization controls reserved for a subsequent frozen protocol.",
+  "precision": "FP32; TF32 disabled; no AMP in this replication screen.",
+  "primary_metrics": [
+    "final_mean_accuracy",
+    "old_final_accuracy",
+    "mean_forgetting"
+  ],
+  "secondary_metrics": [
+    "first_accuracy",
+    "first_ece",
+    "first_nll",
+    "later_auc"
+  ],
+  "progression_rule": "Evaluate paired effects in both seeds, along with acquisition accuracy; no p-values. If only ECE improves, pursue calibration rather than a forgetting claim. Do not add seeds or tune based on final test."
+}

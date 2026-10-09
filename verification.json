@@ -1,0 +1,29 @@
+{
+  "real_resnet_synthetic_integration": true,
+  "exact_resume_parameters_and_bn": true,
+  "resume_metrics": true,
+  "finalize_requires_complete_grid": true,
+  "paired_initialization": true,
+  "six_run_summary": true,
+  "final_test_evaluation": true,
+  "fresh_subset_metrics_recomputed": true,
+  "cuda_tested": false,
+  "full_dataset_training_performed": false,
+  "full_data_preparation": {
+    "counts": {
+      "train": 45000,
+      "validation": 5000,
+      "test": 10000
+    },
+    "fresh_test_count": 9000,
+    "prior_poc_test_count": 1000,
+    "source_archive_sha256": "637c5814e11aefcb6ee76d5f59c67ddc8de7f5b5077502a195b0833d1e3e4441",
+    "train_validation_disjoint": true
+  },
+  "source_sha256": {
+    "run.py": "6c9a48115dae5bc96d82359f17f7fb8ad8d251a124211d7a5e35298d9874c07d",
+    "core.py": "9a5f71d6ffe63b9b42480b9a7cfb94b884a0753a700a7f558f4d0a2d144b6431",
+    "verify.py": "f632636a58cb2d78538eece7c87d1fd7d44fc621a4c131ba9460448dac0b6f14",
+    "prepare.py": "590e5363b36468d48f20056ff2bc30aad2bffead74dcf667a609063ba17fb646"
+  }
+}
